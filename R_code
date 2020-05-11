@@ -1,0 +1,44 @@
+
+library(ggplot2)
+#vegan v2.5-6
+library(vegan)
+library(dplyr)
+library(scales)
+library(grid)
+library(reshape2)
+library(phyloseq)
+
+setwd("/home/kvasir7/Projects/Graptemys Microbiome Project")
+getwd()
+
+source("miseqR.R")
+
+theme_set(theme_bw())
+
+sharedfile = "turtle.shared"
+taxfile = "turtle.taxonomy"
+mapfile = "turtlemetadata2.csv"
+
+mothur_data <- import_mothur(mothur_shared_file = sharedfile,
++   mothur_constaxonomy_file = taxfile)
+
+map <- read.csv(mapfile)
+head(map)
+
+#PERMANOVA
+
+set.seed(1)
+
+turtle_bray <- phyloseq::distance(turtle_scale, method = "bray")
+sampledf <- data.frame(sample_data(turtle))
+adonis(turtle_bray ~ Location, data = sampledf)
+
+adonis(turtle_bray ~ Sex, data = sampledf)
+
+#Group Dipspersion Tests
+
+beta <- betadisper(turtle_bray, sampledf$Sex)
+TukeyHSD(beta)
+
+beta <- betadisper(turtle_bray, sampledf$Location)
+TukeyHSD(beta)
