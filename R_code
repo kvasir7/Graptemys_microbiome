@@ -42,3 +42,18 @@ TukeyHSD(beta)
 
 beta <- betadisper(turtle_bray, sampledf$Location)
 TukeyHSD(beta)
+
+#ANOVA
+#date and location are same groups, use metadata with removed NA columns not analyzed
+install.packages("readODS")
+library(readODS)
+
+turtle <- read_ods("turtlemetadatafinalexcmwt.ods")
+
+turtle$CarapaceLength <- as.numeric(gsub("\\.", "", turtle$CarapaceLength))
+turtle$Date <- as.numeric(gsub("\\.", "", turtle$Date))
+turtle
+
+a <- aov(CarapaceLength~factor(Date), data = turtle)
+summary(a)
+
