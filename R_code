@@ -23,7 +23,41 @@ mothur_data <- import_mothur(mothur_shared_file = sharedfile,
 +   mothur_constaxonomy_file = taxfile)
 
 map <- read.csv(mapfile)
-head(map)
+map <- sample_data(map)
+rownames(map) <- map$SampleID
+sample_names(map)
+sample_names(mothur_data)
+
+turtle_merge <- merge_phyloseq(mothur_data, map)
+turtle_merge
+
+colnames(tax_table(turtle_merge))
+
+colnames(tax_table(turtle_merge)) <- c("Kingdom", "Phylum", "Class", 
+  "Order", "Family", "Genus")
+
+turtle <- turtle_merge
+turtle
+
+###NMDS###
+set.seed(1)
+
+# Ordinate
+turtle_nmds <- ordinate(
+  physeq = turtle, 
+  method = "NMDS", 
+  distance = "bray"
+)
+
+# Plot 
+p <- plot_ordination(
+  physeq = turtle,
+  ordination = turtle_nmds,
+  color = "Location",
+  shape = "Sex")
+
+p + scale_color_manual(values = c("orange", "blue", "black")) +
+  geom_point(aes(color = Location), alpha = 0.7, size = 4)
 
 #PERMANOVA
 
