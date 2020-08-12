@@ -63,7 +63,7 @@ p + scale_color_manual(values = c("orange", "blue", "black")) +
 
 set.seed(1)
 
-turtle_bray <- phyloseq::distance(turtle_scale, method = "bray")
+turtle_bray <- phyloseq::distance(turtle, method = "bray")
 sampledf <- data.frame(sample_data(turtle))
 adonis(turtle_bray ~ Location, data = sampledf)
 
