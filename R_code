@@ -96,21 +96,19 @@ a
 
 
 #Water Temp Comparisons Among Locations
-#ANOVA and Tukey's 
+#Kruskal-Wallis and Dunn's 
 dat<-data.frame(v1=c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3), V2=c(29.4, 29.4, 29.4, 29.8, 29.8, 29.8, 25.9, 25.9, 26, 26, NA, NA, NA, NA, NA, NA, NA, 24.1, 25.4, 24.1, 24.1, 25.4, 25.4, 22.4, 22.4, 24.1, 24.1, 24.1, 24.1, 22.4))
-imp<-apply(dat, 2, mean, na.rm=TRUE)
-df<-dat
-for(i in 1:ncol(dat))
-+ {df[is.na(df[,i]),i]<-imp[i]
-+ }
-df
 
-a <- aov(V2~factor(v1), data = df)
-summary(a)
-posthoc <- TukeyHSD(x=a, conf.level=0.95)
-summary(posthoc)
-posthoc
+###imputed means for NA, not used in Dunn's
+#imp<-apply(dat, 2, mean, na.rm=TRUE)
+#df<-dat
+#for(i in 1:ncol(dat))
+#+ {df[is.na(df[,i]),i]<-imp[i]
+#+ }
+#df
 
-##check normality
-plot(a)
-##QQ okay
+install.packages("FSA")
+library(FSA)
+
+#default Holm method
+dunnTest(V2~factor(v1), data = dat)
