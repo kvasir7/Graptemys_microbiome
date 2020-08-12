@@ -77,7 +77,7 @@ TukeyHSD(beta)
 beta <- betadisper(turtle_bray, sampledf$Location)
 TukeyHSD(beta)
 
-#ANOVA
+#Kruskal-Wallis Rank Sum Tests
 #date and location are same groups, use metadata with removed NA columns not analyzed
 install.packages("readODS")
 library(readODS)
@@ -88,8 +88,12 @@ turtle$CarapaceLength <- as.numeric(gsub("\\.", "", turtle$CarapaceLength))
 turtle$Date <- as.numeric(gsub("\\.", "", turtle$Date))
 turtle
 
-a <- aov(CarapaceLength~factor(Date), data = turtle)
-summary(a)
+a <- kruskal.test(CarapaceLength~factor(Date), data = turtle)
+a
+
+a <- kruskal.test(CarapaceLength~factor(Sex), data = turtle)
+a
+
 
 #Water Temp Comparisons Among Locations
 #ANOVA and Tukey's 
