@@ -7,6 +7,8 @@ library(scales)
 library(grid)
 library(reshape2)
 library(phyloseq)
+library(readODS)
+library(FSA)
 
 setwd("/home/kvasir7/Projects/Graptemys Microbiome Project")
 getwd()
@@ -82,8 +84,6 @@ TukeyHSD(beta)
 
 #Kruskal-Wallis Rank Sum Tests
 #date and location are same groups, use metadata with removed NA columns not analyzed
-install.packages("readODS")
-library(readODS)
 
 turtle <- read_ods("turtlemetadatafinalexcmwt.ods")
 
@@ -110,8 +110,6 @@ dat<-data.frame(v1=c(1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3,
 #+ }
 #df
 
-install.packages("FSA")
-library(FSA)
 
 #default Holm method
 dunnTest(V2~factor(v1), data = dat, method="bh")
