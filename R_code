@@ -111,4 +111,4 @@ install.packages("FSA")
 library(FSA)
 
 #default Holm method
-dunnTest(V2~factor(v1), data = dat)
+dunnTest(V2~factor(v1), data = dat, method="bh")
