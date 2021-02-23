@@ -50,7 +50,7 @@ turtle_nmds <- ordinate(
   method = "NMDS", 
   distance = "bray"
 )
-
+# Solution reached at run 20, stress=0.1430593 
 # Plot 
 p <- plot_ordination(
   physeq = turtle,
@@ -59,7 +59,7 @@ p <- plot_ordination(
   shape = "Sex")
 
 p + scale_color_manual(values = c("orange", "blue", "black")) +
-  geom_point(aes(color = Location), alpha = 0.7, size = 4)
+  geom_point(aes(color = Location), alpha = 0.7, size = 6)
 
 #PERMANOVA
 
