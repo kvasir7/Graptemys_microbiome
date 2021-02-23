@@ -44,7 +44,7 @@ turtle
 ###NMDS###
 set.seed(1)
 
-# Ordinate
+# Ordinate, WI double standardization
 turtle_nmds <- ordinate(
   physeq = turtle, 
   method = "NMDS", 
