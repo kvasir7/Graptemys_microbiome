@@ -71,7 +71,7 @@ adonis(turtle_bray ~ Location, data = sampledf)
 
 adonis(turtle_bray ~ Sex, data = sampledf)
 
-#Group Dipspersion Tests
+#GROUP DISPERSION TESTS
 
 beta <- betadisper(turtle_bray, sampledf$Sex)
 TukeyHSD(beta)
@@ -94,6 +94,33 @@ a
 a <- kruskal.test(CarapaceLength~factor(Sex), data = turtle)
 a
 
+###################################
+###BAR GRAPH###
+
+turtle_genus <- turtle %>%
+  tax_glom(taxrank = "Genus") %>%                     # agglomerate at phylum level
+  transform_sample_counts(function(x) {x/sum(x)} ) %>% # Transform to rel. abundance
+  psmelt() %>%                                         # Melt to long format
+  filter(Abundance > 0.10) %>%                         # Filter out low abundance taxa
+  arrange(Genus)                                      # Sort data frame alphabetically by phylum
+
+# Set colors for plotting
+> genus_colors <- c(
++ "#CBD588", "#5F7FC7", "orange","#DA5724", "#508578", "#CD9BCD", "red",
++ "#AD6F3B", "#673770","#D14285", "#652926", "#C84248",
++ "#green", "#5E738F","#D1A33D", "#8A7C64", "#599861"
++ )
+
+# Plot 
+> ggplot(turtle_genus, aes(x = Day, y = Abundance, fill = Genus)) +
++ facet_grid(.~Treatment) +
++ geom_bar(stat = "identity", position = "fill") +
++ scale_fill_manual(values = genus_colors) +
++ scale_x_discrete(
++ breaks = c("1", "2", "3", "4", "5"),
++ labels = c("Day 1" , "Day 8", "Day 15", "Day 22", "Day 29"),
++ drop = FALSE
++ )
 
 #Water Temp Comparisons Among Locations
 #Kruskal-Wallis and Dunn's 
