@@ -9,6 +9,7 @@ library(reshape2)
 library(phyloseq)
 library(readODS)
 library(FSA)
+library(viridis)
 
 setwd("/home/kvasir7/Projects/Graptemys Microbiome Project")
 getwd()
@@ -96,31 +97,46 @@ a
 
 ###################################
 ###BAR GRAPH###
-
 turtle_genus <- turtle %>%
-  tax_glom(taxrank = "Genus") %>%                     # agglomerate at phylum level
-  transform_sample_counts(function(x) {x/sum(x)} ) %>% # Transform to rel. abundance
-  psmelt() %>%                                         # Melt to long format
-  filter(Abundance > 0.10) %>%                         # Filter out low abundance taxa
-  arrange(Genus)                                      # Sort data frame alphabetically by phylum
+  tax_glom(taxrank = "Genus") %>%
+  transform_sample_counts(function(x) {x/sum(x)} ) %>%
+  psmelt() %>%
+  filter(Abundance > 0.02) %>%
+  arrange(Genus)
 
-# Set colors for plotting
-> genus_colors <- c(
-+ "#CBD588", "#5F7FC7", "orange","#DA5724", "#508578", "#CD9BCD", "red",
-+ "#AD6F3B", "#673770","#D14285", "#652926", "#C84248",
-+ "#green", "#5E738F","#D1A33D", "#8A7C64", "#599861"
-+ )
+tiff("barplot_genus_viridis.tiff", width = 20, height = 9, units = "in", res=300)
+genusplot <- ggplot(turtle_genus, aes(x = Sample, y = Abundance, fill = Genus)) +
+  ylab(" Relative Abundance (>2%)") +
+  facet_grid(.~Location, scales = "free") +
+  geom_bar(stat = "identity") +
+  scale_color_viridis(discrete = TRUE, option = "D") +
+  scale_fill_viridis(discrete = TRUE)
+genusplot
+dev.off()
 
-# Plot 
-> ggplot(turtle_genus, aes(x = Day, y = Abundance, fill = Genus)) +
-+ facet_grid(.~Treatment) +
-+ geom_bar(stat = "identity", position = "fill") +
-+ scale_fill_manual(values = genus_colors) +
-+ scale_x_discrete(
-+ breaks = c("1", "2", "3", "4", "5"),
-+ labels = c("Day 1" , "Day 8", "Day 15", "Day 22", "Day 29"),
-+ drop = FALSE
-+ )
+turtle_phylum <- turtle %>%
+  tax_glom(taxrank = "Phylum") %>%
+  transform_sample_counts(function(x) {x/sum(x)} ) %>%
+  psmelt() %>%
+  filter(Abundance > 0.02) %>%
+  arrange(Phylum)
+phylumplot <- ggplot(turtle_phylum, aes(x = Sample, y = Abundance, fill = Phylum)) +
+  ylab(" Relative Abundance (>2%)") +
+  facet_grid(.~Location, scales = "free") +
+  geom_bar(stat = "identity") +
+  scale_color_viridis(discrete = TRUE, option = "D") +
+  scale_fill_viridis(discrete = TRUE)
+genusplot
+phylumplot
+tiff("barplot_phylum_viridis.tiff", width = 18, height = 9, units = "in", res=300)
+phylumplot <- ggplot(turtle_phylum, aes(x = Sample, y = Abundance, fill = Phylum)) +
+  ylab(" Relative Abundance (>2%)") +
+  facet_grid(.~Location, scales = "free") +
+  geom_bar(stat = "identity") +
+  scale_color_viridis(discrete = TRUE, option = "D") +
+  scale_fill_viridis(discrete = TRUE)
+phylumplot
+dev.off()
 
 #Water Temp Comparisons Among Locations
 #Kruskal-Wallis and Dunn's 
