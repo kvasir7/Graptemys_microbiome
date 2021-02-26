@@ -104,13 +104,13 @@ turtle_genus <- turtle %>%
   filter(Abundance > 0.02) %>%
   arrange(Genus)
 
-tiff("barplot_genus_viridis.tiff", width = 20, height = 9, units = "in", res=300)
+tiff("barplot_genus_custom.tiff", width = 20, height = 9, units = "in", res=300)
 genusplot <- ggplot(turtle_genus, aes(x = Sample, y = Abundance, fill = Genus)) +
-  ylab(" Relative Abundance (>2%)") +
-  facet_grid(.~Location, scales = "free") +
-  geom_bar(stat = "identity") +
-  scale_color_viridis(discrete = TRUE, option = "D") +
-  scale_fill_viridis(discrete = TRUE)
++ ylab(" Relative Abundance (>2%)") +
++ facet_grid(.~Location, scales = "free") +
++ geom_bar(stat = "identity") +
++ geom_col(color = "#000000") +
++ scale_fill_manual(values = c("#A6CEE3", "#87BAD8", "#68A6CD", "#4992C2", "#2A7FB7", "#3487AD", "#569EA4", "#77B69A", "#99CD91", "#AADB84", "#8CCC6E", "#6FBE59", "#52AF43", "#35A12D", "#5C9E42", "#8A9D5B", "#B89B74", "#E69A8D", "#F88A89", "#F26C6C", "#ED4F50", "#E73233", "#E4201F", "#EA4632", "#F06C45", "#F59258", "#FBB86B", "#FDB35A", "#FDA440", "#FE9527", "#FE870D", "#F98416", "#ED8F47", "#E19B78", "#D5A7A9", "#C8AFD4", "#B294C7", "#9C79B9", "#865FAB", "#70449D", "#825D99", "#A48999", "#C7B699", "#E9E299", "#F8F18F", "#E6CB75", "#D4A55B", "#C27F41", "#B15928"))
 genusplot
 dev.off()
 
