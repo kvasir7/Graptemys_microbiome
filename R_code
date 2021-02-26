@@ -120,21 +120,14 @@ turtle_phylum <- turtle %>%
   psmelt() %>%
   filter(Abundance > 0.02) %>%
   arrange(Phylum)
+
+tiff("barplot_phylum_custom.tiff", width = 20, height = 9, units = "in", res=300)
 phylumplot <- ggplot(turtle_phylum, aes(x = Sample, y = Abundance, fill = Phylum)) +
-  ylab(" Relative Abundance (>2%)") +
-  facet_grid(.~Location, scales = "free") +
-  geom_bar(stat = "identity") +
-  scale_color_viridis(discrete = TRUE, option = "D") +
-  scale_fill_viridis(discrete = TRUE)
-genusplot
-phylumplot
-tiff("barplot_phylum_viridis.tiff", width = 18, height = 9, units = "in", res=300)
-phylumplot <- ggplot(turtle_phylum, aes(x = Sample, y = Abundance, fill = Phylum)) +
-  ylab(" Relative Abundance (>2%)") +
-  facet_grid(.~Location, scales = "free") +
-  geom_bar(stat = "identity") +
-  scale_color_viridis(discrete = TRUE, option = "D") +
-  scale_fill_viridis(discrete = TRUE)
++ ylab(" Relative Abundance (>2%)") +
++ facet_grid(.~Location, scales = "free") +
++ geom_bar(stat = "identity") +
++ geom_col(color = "#000000") +
++ scale_fill_manual(values = c("#A6CEE3", "#2A7FB7", "#99CD91", "#52AF43", "#B89B74", "#ED4F50", "#F06C45", "#FDA440", "#ED8F47", "#B294C7", "#825D99", "#F8F18F", "#B15928"))
 phylumplot
 dev.off()
 
