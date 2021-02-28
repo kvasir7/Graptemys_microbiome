@@ -74,11 +74,12 @@ adonis(turtle_bray ~ Sex, data = sampledf)
 
 #GROUP DISPERSION TESTS
 
-beta <- betadisper(turtle_bray, sampledf$Sex)
-TukeyHSD(beta)
+sex <- betadisper(turtle_bray, sampledf$Sex)
+permutest(sex)
 
-beta <- betadisper(turtle_bray, sampledf$Location)
-TukeyHSD(beta)
+location <- betadisper(turtle_bray, sampledf$Location)
+permutest(location)
+TukeyHSD(location)
 
 #Kruskal-Wallis Rank Sum Tests
 #date and location are same groups, use metadata with removed NA columns not analyzed
