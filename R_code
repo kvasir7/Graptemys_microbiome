@@ -9,7 +9,7 @@ library(reshape2)
 library(phyloseq)
 library(readODS)
 library(FSA)
-library(viridis)
+library(pairwiseAdonis)
 
 setwd("/home/kvasir7/Projects/Graptemys Microbiome Project")
 getwd()
@@ -71,6 +71,19 @@ sampledf <- data.frame(sample_data(turtle))
 adonis(turtle_bray ~ Location, data = sampledf)
 
 adonis(turtle_bray ~ Sex, data = sampledf)
+
+#POSTHOC PAIRWISE ADONIS
+#convert phyloseq object into OTU table
+
+vegan_otu <- function(physeq) {
+  OTU <- otu_table(physeq)
+  if (taxa_are_rows(OTU)) {
+  OTU <- t(OTU)
+  }
+  return(as(OTU, "matrix"))
+  }
+ 
+ pairwise.adonis(vegan_otu(turtle), sampledf$Location)
 
 #GROUP DISPERSION TESTS
 
