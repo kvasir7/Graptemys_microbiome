@@ -145,6 +145,8 @@ phylumplot <- ggplot(turtle_phylum, aes(x = Sample, y = Abundance, fill = Phylum
 + geom_bar(stat = "identity") +
 + geom_col(color = "#000000") +
 + scale_fill_manual(values = c("#A6CEE3", "#2A7FB7", "#99CD91", "#52AF43", "#B89B74", "#ED4F50", "#F06C45", "#FDA440", "#ED8F47", "#B294C7", "#825D99", "#F8F18F", "#B15928"))
++ theme(text = element_text(size=28),
++ axis.text.x = element_text(angle=90, hjust=0.5, vjust=0.5))
 phylumplot
 dev.off()
 
